@@ -16,7 +16,7 @@ import lombok.Setter;
  * </p>
  *
  * @author Jasper Zhan
- * @since 2021-11-26
+ * @since 2021-11-27
  */
 @Getter
 @Setter
@@ -32,7 +32,7 @@ public class User implements Serializable {
 
     @ApiModelProperty("用户的手机号，作为登录账号时使用")
     @TableField("tell")
-    private Integer tell;
+    private String tell;
 
     @ApiModelProperty("用户的密码，作为登录账号时使用")
     @TableField("password")
@@ -40,7 +40,7 @@ public class User implements Serializable {
 
     @ApiModelProperty("用户选择的词书，保存词书的id")
     @TableField("book_id")
-    private Long bookId;
+    private Integer bookId;
 
     @ApiModelProperty("用户的学习单词集id")
     @TableField("study_set_id")

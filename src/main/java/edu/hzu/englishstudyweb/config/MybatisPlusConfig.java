@@ -28,8 +28,9 @@ public class MybatisPlusConfig {
                             .xml("mapper")
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, System.getProperty("user.dir")+"\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
+                //, "sys_book", "sys_collection", "sys_review_set", "sys_study_set", "sys_word"
                 .strategyConfig(builder -> {
-                    builder.addInclude("sys_user", "sys_book", "sys_collection", "sys_review_set", "sys_study_set", "sys_word") // 设置需要生成的表名
+                    builder.addInclude("sys_user") // 设置需要生成的表名
                             .addTablePrefix("sys_") // 设置过滤表前缀
                             .serviceBuilder()
                             .formatServiceFileName("%sService")
