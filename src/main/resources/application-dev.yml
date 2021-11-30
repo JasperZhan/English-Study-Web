@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: edu/hzu/englishstudyweb/mapper
+
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper: debug

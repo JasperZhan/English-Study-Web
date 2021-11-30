@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Data
 @TableName("sys_study_set")
 @ApiModel(value = "StudySet对象", description = "")
 public class StudySet implements Serializable {
@@ -32,19 +34,19 @@ public class StudySet implements Serializable {
 
     @ApiModelProperty("用户id")
     @TableField("user_id")
-    private Integer userId;
+    private Integer user_id;
 
     @ApiModelProperty("单词id")
     @TableField("word_id")
-    private Integer wordId;
+    private Integer word_id;
 
     @ApiModelProperty("单词学习次数")
     @TableField("word_count")
-    private Integer wordCount;
+    private Integer word_count;
 
     @ApiModelProperty("单词学习阶段（1 忘记， 2 模糊， 3 认识）")
     @TableField("word_status")
-    private Integer wordStatus;
+    private Integer word_status;
 
 
 }

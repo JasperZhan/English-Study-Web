@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.hzu.englishstudyweb.mapper.WordMapper">
+    <select id="Max_LevelIdx"  resultType="Integer" parameterType="java.lang.String">
+        select
+            max(id)
+        from sys_word
+        where level = #{level,jdbcType=VARCHAR}
+    </select>
+
 
 </mapper>
