@@ -10,7 +10,9 @@ public enum ResultCode {
     /* 失败状态码 */
     FAILURE(2, "失败"),
     /* 查询失败（结果为空）状态码 */
-    FAILURE_OF_QUERY_NULL(201, "失败：查询结果为空");
+    FAILURE_OF_QUERY_NULL(2010, "失败：查询结果为空"),
+    FAILURE_NULL_POINTER(201, "失败，空指针异常"),
+    FAILURE_DATABASE(2011, "失败，数据库错误");
 
     private Integer code;
     private String message;
