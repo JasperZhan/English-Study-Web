@@ -10,11 +10,7 @@ import edu.hzu.englishstudyweb.service.CollectionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.hzu.englishstudyweb.util.Result;
 import edu.hzu.englishstudyweb.util.ResultCode;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -48,7 +44,7 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
         }
         if (save(collection)) {
             return Result.success(ResultCode.SUCCESS);
-        };
+        }
         return Result.failure(ResultCode.FAILURE);
     }
 
@@ -69,7 +65,7 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
         queryCollection = (Collection) result.getData();
         if (removeById(queryCollection.getId())) {
             return Result.success(ResultCode.SUCCESS);
-        };
+        }
         return Result.failure(ResultCode.FAILURE);
     }
 
@@ -82,7 +78,7 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
      */
     @Override
     public Result isWordExist(Collection collection) {
-        QueryWrapper<Collection> queryWrapper = new QueryWrapper();
+        QueryWrapper<Collection> queryWrapper = new QueryWrapper<>();
 
         if (collection.getId() == null) {
             if (collection.getUserId() == null || collection.getWordId() == null) {
@@ -117,7 +113,7 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
         if (user.getId() == null) {
             return Result.failure(ResultCode.FAILURE);
         }
-        Page<Word> page = new Page<Word>(current, number);
+        Page<Word> page = new Page<>(current, number);
         page = page.setRecords(this.baseMapper.showUserCollectionWord(page, user.getId()));
         return Result.success(ResultCode.SUCCESS, page);
     }

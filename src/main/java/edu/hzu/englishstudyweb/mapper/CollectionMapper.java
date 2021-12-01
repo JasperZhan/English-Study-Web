@@ -25,5 +25,5 @@ public interface CollectionMapper extends BaseMapper<Collection> {
     @Select("select * from sys_word a " +
             "RIGHT JOIN sys_collection b on a.id = b.word_id " +
             "WHERE b.user_id = #{userId}")
-    List<Word> showUserCollectionWord(Page<Word> page, @Param("userId") Integer userId);
+    List<Word> showUserCollectionWord(@Param("page") Page<Word> page, @Param("userId") Integer userId);
 }
