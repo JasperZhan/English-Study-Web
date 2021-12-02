@@ -1,8 +1,12 @@
 package edu.hzu.englishstudyweb;
 
 import cn.dev33.satoken.SaManager;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.hzu.englishstudyweb.model.User;
+import edu.hzu.englishstudyweb.model.Word;
+import edu.hzu.englishstudyweb.service.StudySetService;
 import edu.hzu.englishstudyweb.service.UserService;
+import edu.hzu.englishstudyweb.service.WordService;
 import edu.hzu.englishstudyweb.util.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +18,9 @@ public class UserTests {
 
     @Resource
     UserService userService;
+
+    @Resource
+    WordService wordService;
 
     @Test
     void contextLoads() {
@@ -42,9 +49,11 @@ public class UserTests {
     @Test
     void registerTest() {
         User user = new User();
-        user.setTell("12312345678");
+        user.setTell("231234567");
         user.setPassword("123456");
         Result result = userService.register(user);
         System.out.println(result.getCode());
     }
+
+
 }
