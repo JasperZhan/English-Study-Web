@@ -1,5 +1,4 @@
 package edu.hzu.englishstudyweb.serviceImpl;
-
 import edu.hzu.englishstudyweb.common.WordIdx;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.mapper.WordMapper;
@@ -9,7 +8,6 @@ import edu.hzu.englishstudyweb.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +34,14 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
 
     public WordIdx wordIdx = new WordIdx();
 
+    /**
+     *  从总单词表选择出单词
+     * @param uid  加入学习集的对象
+     * @param wordNum 选择的单词数量
+     * @param level 选择的单词等级
+     * @return edu.hzu.englishstudyweb.util.Result>
+     * @author zxb
+     */
     @Override
     public Result selectWord(int uid,int wordNum, String level) {
         int count = 0;
@@ -66,6 +72,12 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
         return Result.success(WordId);
     }
 
+    /**
+     *  从数据库获取单词的标号
+     * @param level  单词等级
+     * @return Integer
+     * @author zxb
+     */
     @Override
     public Integer Max_LevelIdx(String level) {
         assert wordMapper != null;

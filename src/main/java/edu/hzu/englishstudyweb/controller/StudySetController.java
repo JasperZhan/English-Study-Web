@@ -42,13 +42,19 @@ public class StudySetController {
     public boolean judge = false;
 
     public  List<Integer> totalList = new LinkedList<>(); // 用来保存背诵过程中剩余的单词id 和 显示剩余单词数量
-    public  Queue<Integer> knowQueue = new LinkedList<>();
-    public  Queue<Integer> vagueQueue = new LinkedList<>();
-    public  Queue<Integer> forgetQueue = new LinkedList<>();
+    public  Queue<Integer> knowQueue = new LinkedList<>(); // 认识队列
+    public  Queue<Integer> vagueQueue = new LinkedList<>(); // 模糊队列
+    public  Queue<Integer> forgetQueue = new LinkedList<>(); // 不认识队列
 
 
 
-
+    /**
+     * 选择要被单词的数量和等级
+     * @author zxb
+     * @param wordNum 单词数量
+     * @param wordLevel 单词等级
+     * @return java.lang.String
+     */
     @RequestMapping("add")
     public String add(int wordNum,String wordLevel) {
         if (!StpUtil.isLogin()) {
@@ -66,7 +72,11 @@ public class StudySetController {
         }
     }
 
-
+    /**
+     * 开始学习单词
+     * @author zxb
+     * @return java.lang.String
+     */
     @RequestMapping("/study")
     public String study(Model model) {  // 点击开始学习后先从学习集里面获取 单词 加入到初始队列里面
         if (!StpUtil.isLogin()) {
@@ -89,7 +99,12 @@ public class StudySetController {
 
 
 
-
+    /**
+     * 认识单词
+     * @author zxb
+     * @param studySet 学习集对象
+     * @return java.lang.String
+     */
     @PostMapping("know")
     @ResponseBody
     public String know(Model model,@RequestBody(required = true) StudySet studySet) { // 点击了认识按钮 修改对应状态  存入redis
@@ -161,6 +176,12 @@ public class StudySetController {
         }
     }
 
+    /**
+     * 模糊单词
+     * @author zxb
+     * @param studySet 学习集对象
+     * @return java.lang.String
+     */
     @PostMapping("vague")
     @ResponseBody
     public String vague(Model model,@RequestBody(required = true) StudySet studySet) {
@@ -213,7 +234,12 @@ public class StudySetController {
         return "学习的页面";
 
     }
-
+    /**
+     * 不认识单词
+     * @author zxb
+     * @param studySet 学习集对象
+     * @return java.lang.String
+     */
     @PostMapping("forget")
     @ResponseBody
     public String forget(Model model, @RequestBody(required = true)StudySet studySet) {
