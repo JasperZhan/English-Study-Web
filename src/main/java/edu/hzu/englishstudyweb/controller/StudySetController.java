@@ -3,13 +3,15 @@ package edu.hzu.englishstudyweb.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import edu.hzu.englishstudyweb.model.StudySet;
+import edu.hzu.englishstudyweb.model.User;
+import edu.hzu.englishstudyweb.model.Word;
+import edu.hzu.englishstudyweb.service.ReviewSetService;
 import edu.hzu.englishstudyweb.service.StudySetService;
 import edu.hzu.englishstudyweb.util.RedisUtil;
 import edu.hzu.englishstudyweb.util.Result;
 import edu.hzu.englishstudyweb.util.SerializeUtil;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import javax.annotation.Resource;
 import java.util.LinkedList;
@@ -31,6 +33,9 @@ public class StudySetController {
 
     @Resource
     StudySetService studySetService;
+
+    @Resource
+    ReviewSetService reviewSetService;
 
     public Jedis jedis = RedisUtil.getJedis();
 
@@ -69,13 +74,12 @@ public class StudySetController {
         }
         Result result = studySetService.selectWord(StpUtil.getLoginIdAsInt(),1); //选取单词状态是1的单词
         List<Integer> word_id= (List<Integer>) result.getData(); // 从学习集里面获取 即将要学习的单词 id 列表
-
+        System.out.println(word_id);
         for (Integer integer : word_id) {
-
-            totalList.add(word_id.get(integer));  //将单词id列表加入到List里面
-            forgetQueue.offer(word_id.get(integer));  // 将单词加入忘记队列
-            StudySet studySet = (StudySet) studySetService.selectWordByWid(word_id.get(integer)).getData(); // 从学习集里面找出单词
-            jedis.set(word_id.get(integer).toString().getBytes(),SerializeUtil.serialize(studySet)); // 将单词id 作为key, 整个单词作为value 存入redis
+            totalList.add(integer);  //将单词id列表加入到List里面
+            forgetQueue.offer(integer);  // 将单词加入忘记队列
+            StudySet studySet = (StudySet) studySetService.selectWordByWid(integer).getData(); // 从学习集里面找出单词
+            jedis.set(integer.toString().getBytes(),SerializeUtil.serialize(studySet)); // 将单词id 作为key, 整个单词作为value 存入redis
         }
         result = studySetService.selectWordByWid(forgetQueue.peek()); // 获取第一个单词 但先不出队 后面统一出队
         model.addAttribute("studySet",result.getData());  // 页面展示的第一个单词
@@ -86,8 +90,9 @@ public class StudySetController {
 
 
 
-    @RequestMapping("know")
-    public String know(Model model,StudySet studySet) { // 点击了认识按钮 修改对应状态  存入redis
+    @PostMapping("know")
+    @ResponseBody
+    public String know(Model model,@RequestBody(required = true) StudySet studySet) { // 点击了认识按钮 修改对应状态  存入redis
         if (!StpUtil.isLogin()) {
             return "当前未登录";
         }
@@ -95,15 +100,19 @@ public class StudySetController {
 
         if (studySet.getWord_status().equals(3)) {  // 单词点击认识前的status是认识 : 出队
              knowQueue.poll(); // 认识队列队头出队
-             totalList.remove(studySet.getWord_id());  //将背会的单词从总背诵的列表删除
-
+            totalList.remove(studySet.getWord_id());  //将背会的单词从总背诵的列表删除
             if (studySet.getWord_count()>5) {  // 如果该单词总背诵超过5次，需要加入复习集里面
                 // 加入复习集合
-
+                User user = new User();
+                Word word = new Word();
+                word.setId(studySet.getWord_id());
+                user.setId(StpUtil.getLoginIdAsInt());
+                reviewSetService.addWord(user,word);
             }
         } else if(studySet.getWord_status().equals(2)) { // 单词前一个状态是：模糊
             studySet.setWord_status(3);  // 单词状态变为认识
             knowQueue.offer(vagueQueue.poll());  // 模糊队列队头 出队 并且 加入认识队列
+
 
 
         }else if(studySet.getWord_status().equals(1)) { // 单词前一个状态是：不认识
@@ -117,6 +126,8 @@ public class StudySetController {
         // 点击认识按钮 单词的状态修改后，即将从三个队列中，寻找下一个要背诵的单词
         if (totalList.isEmpty()) {   // 如果要背诵的单词全部背完了
            studySetService.deleteWord(StpUtil.getLoginIdAsInt());
+            System.out.println("背完全部单词，并删除学习集里面的单词");
+
             return "背完全部单词";
         } else {  // 从三个队列中寻找下一个单词
 
@@ -125,32 +136,34 @@ public class StudySetController {
 
                 while (!forgetQueue.isEmpty()) {  // 先从不认识队列里面寻找要背的单词
                     // 从redis 中 依据wid 作为key  寻找单词
-                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.poll().toString().getBytes()));
+                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.peek().toString().getBytes()));
                     judge = true;
                     break;
                 }
 
             if (!judge) {
                 while (!vagueQueue.isEmpty()) { // 不认识队列没有单词 从模糊队列找
-                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.poll().toString().getBytes()));
+                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.peek().toString().getBytes()));
                     judge = true;
                     break;
                 }
             }
             if (!judge) {
                 while (!knowQueue.isEmpty()) {
-                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.poll().toString().getBytes()));
+                    newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.peek().toString().getBytes()));
                     break;
                 }
             }
+            System.out.println("下一个要学习的单词:"+newWord);
             model.addAttribute("newWord",newWord);  // 下一个要背诵的单词
             model.addAttribute("lastWordNum",totalList.size()); // 剩余单词量
             return "学习的页面";
         }
     }
 
-    @RequestMapping("vague")
-    public String vague(Model model,StudySet studySet) {
+    @PostMapping("vague")
+    @ResponseBody
+    public String vague(Model model,@RequestBody(required = true) StudySet studySet) {
         if (!StpUtil.isLogin()) {
             return "当前未登录";
         }
@@ -175,32 +188,35 @@ public class StudySetController {
 
         while (!forgetQueue.isEmpty()) {  // 先从不认识队列里面寻找要背的单词
             // 从redis 中 依据wid 作为key  寻找单词
-            newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.poll().toString().getBytes()));
+            newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.peek().toString().getBytes()));
             judge = true;
             break;
         }
 
         if (!judge) {
             while (!vagueQueue.isEmpty()) { // 不认识队列没有单词 从模糊队列找
-                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.poll().toString().getBytes()));
+                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.peek().toString().getBytes()));
                 judge = true;
                 break;
             }
         }
         if (!judge) {
             while (!knowQueue.isEmpty()) {
-                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.poll().toString().getBytes()));
+                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.peek().toString().getBytes()));
                 break;
             }
         }
+        System.out.println("下一个要学习的单词:"+newWord);
+
         model.addAttribute("newWord",newWord);  // 下一个要背诵的单词
         model.addAttribute("lastWordNum",totalList.size()); // 剩余单词量
         return "学习的页面";
 
     }
 
-    @RequestMapping("forget")
-    public String forget(Model model,StudySet studySet) {
+    @PostMapping("forget")
+    @ResponseBody
+    public String forget(Model model, @RequestBody(required = true)StudySet studySet) {
         if (!StpUtil.isLogin()) {
             return "当前未登录";
         }
@@ -225,24 +241,26 @@ public class StudySetController {
 
         while (!forgetQueue.isEmpty()) {  // 先从不认识队列里面寻找要背的单词
             // 从redis 中 依据wid 作为key  寻找单词
-            newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.poll().toString().getBytes()));
+            newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(forgetQueue.peek().toString().getBytes()));
             judge = true;
             break;
         }
 
         if (!judge) {
             while (!vagueQueue.isEmpty()) { // 不认识队列没有单词 从模糊队列找
-                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.poll().toString().getBytes()));
+                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(vagueQueue.peek().toString().getBytes()));
                 judge = true;
                 break;
             }
         }
         if (!judge) {
             while (!knowQueue.isEmpty()) {
-                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.poll().toString().getBytes()));
+                newWord =(StudySet) SerializeUtil.unSerialize(jedis.get(knowQueue.peek().toString().getBytes()));
                 break;
             }
         }
+        System.out.println("下一个要学习的单词:"+newWord);
+
         model.addAttribute("newWord",newWord);  // 下一个要背诵的单词
         model.addAttribute("lastWordNum",totalList.size()); // 剩余单词量
         return "学习的页面";

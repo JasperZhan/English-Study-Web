@@ -1,16 +1,12 @@
 package edu.hzu.englishstudyweb.serviceImpl;
 
-import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.hzu.englishstudyweb.model.StudySet;
 import edu.hzu.englishstudyweb.mapper.StudySetMapper;
-import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.service.StudySetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.hzu.englishstudyweb.service.WordService;
 import edu.hzu.englishstudyweb.util.Result;
 import edu.hzu.englishstudyweb.util.ResultCode;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

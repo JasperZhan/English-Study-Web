@@ -1,15 +1,11 @@
 package edu.hzu.englishstudyweb.serviceImpl;
 
-import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.hzu.englishstudyweb.common.WordIdx;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.mapper.WordMapper;
-import edu.hzu.englishstudyweb.service.StudySetService;
 import edu.hzu.englishstudyweb.service.WordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.hzu.englishstudyweb.util.Result;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +32,7 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     WordMapper wordMapper;
 
     @Resource
-    private RedisTemplate redisTemplate;
+    RedisTemplate redisTemplate;
 
     public WordIdx wordIdx = new WordIdx();
 
