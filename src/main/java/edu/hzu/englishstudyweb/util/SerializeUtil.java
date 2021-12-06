@@ -5,7 +5,7 @@ import java.io.*;
 public class SerializeUtil {
 /**
  *
- * 序列化
+ * 序列化工具
  */
 public static byte[] serialize(Object obj) {
 

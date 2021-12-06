@@ -5,6 +5,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * 实现jedis
+ */
 public class RedisUtil {
     private static String ip="localhost";
     private static final  int port=6379;

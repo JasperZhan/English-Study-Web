@@ -37,6 +37,15 @@ public class StudySetServiceImpl extends ServiceImpl<StudySetMapper, StudySet> i
     @Autowired
     StudySetMapper studySetMapper;
 
+
+    /**
+     * 根据输入单词数量和等级添加单词到学习集
+     * @param studySet  加入学习集的对象
+     * @param wordNum  要背诵单词数量
+     * @param wordLevel   要背诵的单词等级
+     * @return edu.hzu.englishstudyweb.util.Result>
+     * @author zxb
+     */
      @Override
      public Result addWord(User user) {
          if (user == null || user.getId() == null) {
@@ -60,18 +69,37 @@ public class StudySetServiceImpl extends ServiceImpl<StudySetMapper, StudySet> i
         return Result.success();
      }
 
+    /**
+     *  从学习集选择要背诵的单词ID列表
+     * @param user_id  加入学习集的对象
+     * @param word_status  要背诵单词数量
+     * @return edu.hzu.englishstudyweb.util.Result>
+     * @author zxb
+     */
      @Override
      public Result selectWord(Integer user_id,Integer word_status) {
          List<StudySet> studySets = studySetMapper.selectWord(user_id,word_status);
          return Result.success(studySets);
      }
 
+    /**
+     *  根据单词ID从学习集选择单词
+     * @param word_id  加入学习集的对象
+     * @return edu.hzu.englishstudyweb.util.Result>
+     * @author zxb
+     */
      @Override
      public Result selectWordByWid(Integer word_id) {
          StudySet studySet = studySetMapper.selectWordByWid(word_id);
          return Result.success(studySet);
      }
 
+    /**
+     *  背诵完单词后从单词集删除全部单词
+     * @param user_id  加入学习集的对象
+     * @return edu.hzu.englishstudyweb.util.Result>
+     * @author zxb
+     */
     @Override
     public Result deleteWord(Integer id) {
         Integer ans = studySetMapper.deleteSetWord(id);
