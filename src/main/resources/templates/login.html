@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="../static/css/login.css" th:href="@{//login.css}>-->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container-fluid">
+<div class="row" style="margin-top: 10%">
+    <div class="col"></div>
+    <div class="col-3">
+        <div class="card">
+            <div class="form m-3">
+                <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="tell" placeholder="请输入手机号码">
+                    <label for="tell">手机号</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                    <label for="password">密码</label>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="rememberPassword" checked>
+                        <label class="form-check-label" for="rememberPassword">
+                            记住密码
+                        </label>
+                    </div>
+                    <a href="">忘记密码</a>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-3">登录</button>
+            </div>
+            <a href="" class="mx-auto mb-2">没有账号，前往注册</a>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+<!--<div id="bk" style="position:absolute; width:100%; height:100%; background-color: snow; z-index:-1" >-->
+<!--    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="4000">-->
+<!--        <div class="carousel-inner">-->
+<!--            <div class="carousel-item active">-->
+<!--                <img src="/static/img/by10.jpg" class="d-block w-100" alt="...">-->
+<!--            </div>-->
+<!--            <div class="carousel-item">-->
+<!--                <img src="/static/img/by8.jpg" class="d-block w-100" alt="...">-->
+<!--            </div>-->
+<!--            <div class="carousel-item">-->
+<!--                <img src="/static/img/by7.jpg" class="d-block w-100" alt="...">-->
+<!--            </div>-->
+<!--            <div class="carousel-item">-->
+<!--                <img src="/static/img/by9.jpg" class="d-block w-100" alt="...">-->
+<!--            </div>-->
+<!--            <div class="carousel-item">-->
+<!--                <img src="/static/img/by6.jpg" class="d-block w-100" alt="...">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<button class="carousel-control-prev" type="button" data-target="#carouselExampleControls" data-slide="prev">-->
+<!--    <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--    <span class="sr-only">Previous</span>-->
+<!--</button>-->
+<!--<button class="carousel-control-next" type="button" data-target="#carouselExampleControls" data-slide="next">-->
+<!--    <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--    <span class="sr-only">Next</span>-->
+<!--</button>-->
+<!--</div>-->
+<!--<div style="margin-top: 10%">-->
+<!--    <div class="card w-25 m-auto" >-->
+<!--        <div class="form-group w-75 m-auto">&ndash;&gt;-->
+<!--                    <br>-->
+<!--                    <input id="txtPhone" type="text" class="form-control" placeholder="11位手机号">-->
+<!--                </div>-->
+<!--                <div class="form-group w-75 m-auto">-->
+<!--                    <br>-->
+<!--                    <input id="txtPwd" type="password" class="form-control" placeholder="6-16位密码">-->
+<!--                </div>-->
+<!--                <div id="lblRemberpwd"><label>-->
+<!--                    <input type="checkbox" class="three">-->
+<!--                </label>&nbsp;记住密码-->
+<!--                </div>-->
+<!--                <br><br>-->
+<!--                <button type="button" class="btn btn-primary btn-block w-75 m-auto" onclick="fnLogin()">登录</button>-->
+<!--                <br>-->
+<!--                <h6 class="text-center"><a id="btnChangepwd" href="../html/Change.html">找回密码</a><span class="mx-4">|</span><a-->
+<!--                        id="btnRegister" href="../html/Register.html">立即注册</a></h6>-->
+<!--    </div>-->
+<!--    <div class="biaoti"><h1 class="text-center" contenteditable="true" style="font-style: italic;">不背单词</h1></div>-->
+<!--    <b id="btnLogin">&nbsp;&nbsp;&nbsp;&nbsp;登录</b>-->
+<!--    <div class="form-group w-75 m-auto">-->
+<!--        <br>-->
+<!--        <input id="txtPhone" type="text" class="form-control" placeholder="11位手机号">-->
+<!--    </div>-->
+<!--    <div class="form-group w-75 m-auto">-->
+<!--        <br>-->
+<!--        <input id="txtPwd" type="password" class="form-control" placeholder="6-16位密码">-->
+<!--    </div>-->
+<!--    <div id="lblRemberpwd"><label>-->
+<!--        <input type="checkbox" class="three">-->
+<!--    </label>&nbsp;记住密码-->
+<!--    </div>-->
+<!--    <br><br>-->
+<!--    <button type="button" class="btn btn-primary btn-block w-75 m-auto" onclick="fnLogin()">登录</button>-->
+<!--    <br>-->
+<!--    <h6 class="text-center"><a id="btnChangepwd" href="../html/Change.html">找回密码</a><span class="mx-4">|</span><a-->
+<!--            id="btnRegister" href="../html/Register.html">立即注册</a></h6>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--</div>-->
+<!--<div id="error_box"><br></div>-->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/login.js" th:src="@{/js/login.js}"></script>
+</body>
+</html>
