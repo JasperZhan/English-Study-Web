@@ -1,11 +1,14 @@
 package edu.hzu.englishstudyweb.serviceImpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.hzu.englishstudyweb.common.WordIdx;
+import edu.hzu.englishstudyweb.model.ReviewSet;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.mapper.WordMapper;
 import edu.hzu.englishstudyweb.service.WordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.hzu.englishstudyweb.util.Result;
+import edu.hzu.englishstudyweb.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -72,5 +75,15 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
         return wordMapper.Max_LevelIdx(level);
     }
 
+    @Override
+    public Result getWords() {
 
+        List<Word> wordList = list();
+
+        if (wordList.size() == 0) {
+            return Result.failure(ResultCode.FAILURE_OF_QUERY_NULL);
+        }
+
+        return Result.success(wordList);
+    }
 }

@@ -19,4 +19,6 @@ public interface WordService extends IService<Word> {
 
     Integer Max_LevelIdx(String level);
 
+    Result getWords();
+
 }
