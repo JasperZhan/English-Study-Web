@@ -2,53 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.hzu.englishstudyweb.mapper.StudySetMapper">
     <resultMap id="StudySet" type="edu.hzu.englishstudyweb.model.StudySet">
-        <result  column="user_id" property="user_id" jdbcType="INTEGER"/>
-        <result  column="word_id" property="word_id" jdbcType="INTEGER"/>
-        <result  column="word_count" property="word_count" jdbcType="INTEGER"/>
-        <result  column="word_status" property="word_status" jdbcType="INTEGER"/>
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="user_id" jdbcType="INTEGER"/>
+        <result column="word_id" property="word_id" jdbcType="INTEGER"/>
+        <result column="word_count" property="word_count" jdbcType="INTEGER"/>
+        <result column="word_status" property="word_status" jdbcType="INTEGER"/>
     </resultMap>
 
 
-
-    <insert id="insertWord">
+    <insert id="insertWord" parameterType="integer">
         insert into
-        sys_study_set
-        <trim prefix="(" suffix=")" suffixOverrides=",">
+        sys_study_set (user_id, word_id)
+        SELECT
+        sys_user.id,
+        sys_word.id
+        FROM
+             sys_user left join sys_word on sys_user.book = sys_word.level
+             WHERE sys_user.id = #{userId}
 
-            <if test="user_id!=null">user_id,</if>
-            <if test="word_id!=null">word_id,</if>
-            <if test="word_count!=null">word_count,</if>
-            <if test="word_status!=null">word_status,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="user_id!=null">#{user_id,jdbcType=INTEGER},</if>
-            <if test="word_id!=null">#{word_id,jdbcType=INTEGER},</if>
-            <if test="word_count!=null">#{word_count,jdbcType=INTEGER},</if>
-            <if test="word_status!=null">#{word_status,jdbcType=INTEGER},</if>
-        </trim>
+
+
+
+
+
+
+<!--        <trim prefix="(" suffix=")" suffixOverrides=",">-->
+
+<!--            <if test="user_id!=null">user_id,</if>-->
+<!--            <if test="word_id!=null">word_id,</if>-->
+<!--            <if test="word_count!=null">word_count,</if>-->
+<!--            <if test="word_status!=null">word_status,</if>-->
+<!--        </trim>-->
+<!--        <trim prefix="values (" suffix=")" suffixOverrides=",">-->
+<!--            <if test="user_id!=null">#{user_id,jdbcType=INTEGER},</if>-->
+<!--            <if test="word_id!=null">#{word_id,jdbcType=INTEGER},</if>-->
+<!--            <if test="word_count!=null">#{word_count,jdbcType=INTEGER},</if>-->
+<!--            <if test="word_status!=null">#{word_status,jdbcType=INTEGER},</if>-->
+<!--        </trim>-->
     </insert>
 
-    <select id="selectWord" resultType="java.lang.Integer">
-        select
-           word_id
-        from  sys_study_set
+    <select id="selectWord" resultMap="StudySet">
+        select *
+        from sys_study_set
         where user_id = #{param1,jdbcType=VARCHAR}
-        and word_status = #{param2,jdbcType=VARCHAR}
+          and word_status = #{param2,jdbcType=VARCHAR}
     </select>
 
     <delete id="deleteSetWord">
-        delete from
-        sys_study_set
-        where user_id = #{user_id,jdbcType=INTEGER}
+        delete
+        from sys_study_set
+        where id = #{id,jdbcType=INTEGER}
     </delete>
 
-    <select id="selectWordByWid" parameterType="INTEGER" resultMap="StudySet" >
-        select
-        *
+    <select id="selectWordByWid" parameterType="INTEGER" resultMap="StudySet">
+        select *
         from sys_study_set
-        where  word_id = #{word_id,jdbcType=INTEGER}
+        where word_id = #{word_id,jdbcType=INTEGER}
     </select>
 
 
+    <select id="showUserStudyWordPage" resultType="edu.hzu.englishstudyweb.model.Word">
+        SELECT *
+        FROM sys_word sw
+                 RIGHT JOIN sys_study_set sss
+                            on sw.id = sss.word_id
+        WHERE sss.user_id = #{userId}
+    </select>
+
+    <select id="showUserStudySetPage" resultMap="StudySet">
+        SELECT *
+        FROM sys_study_set
+        WHERE user_id = #{userId}
+    </select>
 
 </mapper>
