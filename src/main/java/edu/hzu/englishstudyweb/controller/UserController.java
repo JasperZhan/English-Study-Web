@@ -29,7 +29,18 @@ public class UserController {
     UserService userService;
 
     /**
-     * 登录
+     * 登录页面
+     * @author Jasper Zhan
+     * @date 2021/12/4 9:56
+     * @return java.lang.String
+     */
+    @RequestMapping("login")
+    public String login() {
+        return "login";
+    }
+
+    /**
+     * 登录验证
      * @author Jasper Zhan
      * @date 2021/11/27 10:47
      * @param tell 登录手机号
@@ -37,8 +48,8 @@ public class UserController {
      * @return java.lang.String
      */
     @ResponseBody
-    @RequestMapping("login")
-    public String login(String tell, String password){
+    @RequestMapping("login/check")
+    public String loginCheck(String tell, String password){
         User user = new User();
         user.setTell(tell);
         user.setPassword(SaSecureUtil.md5(password));
@@ -47,7 +58,7 @@ public class UserController {
         if (result.isSuccess()) {
             user = (User) result.getData();
             StpUtil.login(user.getId());
-            return "登录成功";
+            return "location.href='/study/word'";
         } else {
             return "alert('" + result.getMsg() + "')";
         }
