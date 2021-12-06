@@ -2,6 +2,8 @@ package edu.hzu.englishstudyweb;
 
 
 import edu.hzu.englishstudyweb.model.StudySet;
+import edu.hzu.englishstudyweb.model.User;
+import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.service.StudySetService;
 import edu.hzu.englishstudyweb.service.WordService;
 import edu.hzu.englishstudyweb.util.RedisUtil;
@@ -31,11 +33,9 @@ public class StudySetTests {
 
     @Test
     void addWordTest() {
-        StudySet studySet = new StudySet();
-        studySet.setUser_id(2);
-        studySet.setWord_status(1);
-        studySet.setWord_count(0);
-        Result result = studySetService.addWord(studySet,5,"6");
+        User user = new User();
+        user.setId(6);
+        Result result = studySetService.addWord(user);
         if (result.isSuccess()) {
             System.out.println("单词成功加入学习集");
         } else {
@@ -45,9 +45,12 @@ public class StudySetTests {
 
     @Test
     void getWordTest() {
-        Result result = studySetService.selectWord(2,1);
-        List<Integer> word_id= (List<Integer>) result.getData();
-        System.out.println(word_id);
+        Result result = studySetService.selectWord(6,1);
+        List<StudySet> studySets = (List<StudySet>) result.getData();
+        for (StudySet studySet: studySets) {
+            System.out.println(studySet.getId() + " " + studySet.getWord_status());
+        }
+
     }
     @Test
     void selectWordByWidTest() {
@@ -103,6 +106,31 @@ public class StudySetTests {
     }
 
 
+    @Test
+    void getPageOfWordByUserTest() {
+        User user = new User();
+        user.setId(6);
+
+        Result result;
+
+        result = studySetService.getPageOfWordByUser(user, 2, 20);
+
+        if (!result.isSuccess()) {
+            System.out.println(result.getCode());
+            return;
+        }
+
+        List<Word> wordList = (List<Word>) result.getData();
+
+        for (Word word: wordList
+        ) {
+            System.out.println("单词id" + word.getId() +
+                    "，单词英语" + word.getEnglish() +
+                    "，单词中文" + word.getChinese() +
+                    "，单词英标" + word.getSent() +
+                    "，单词等级" + word.getLevel());
+        }
+    }
 
 
 }
