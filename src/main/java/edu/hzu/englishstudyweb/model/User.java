@@ -39,8 +39,8 @@ public class User implements Serializable {
     private String password;
 
     @ApiModelProperty("用户选择的词书，保存词书的id")
-    @TableField("book_id")
-    private Integer bookId;
+    @TableField("book")
+    private String book;
 
     @ApiModelProperty("用户的学习单词集id")
     @TableField("study_set_id")
