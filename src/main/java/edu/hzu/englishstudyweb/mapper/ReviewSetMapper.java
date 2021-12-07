@@ -28,9 +28,8 @@ public interface ReviewSetMapper extends BaseMapper<ReviewSet> {
     IPage<Word> showUserReviewWordPage(Page<?> page, @Param("userId") Integer userId);
 
     @Select("SELECT * " +
-            "FROM sys_word a " +
-            "RIGHT JOIN sys_review_set b on a.id = b.word_id " +
-            "WHERE b.user_id = #{userId} " +
-            "AND b.date_interval = DATEDIFF(#{currentDate}, b.study_date) ")
-    List<Word> getUserCurrentReviewWord(@Param("userId") Integer userId, @Param("currentDate") LocalDate currentDate);
+            "FROM sys_review_set srs " +
+            "WHERE srs.user_id = #{userId} " +
+            "AND srs.date_interval = DATEDIFF(#{currentDate}, srs.study_date) ")
+    List<ReviewSet> getUserCurrentReviewWord(@Param("userId") Integer userId, @Param("currentDate") LocalDate currentDate);
 }

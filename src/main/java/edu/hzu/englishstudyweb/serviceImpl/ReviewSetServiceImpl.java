@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import edu.hzu.englishstudyweb.model.ReviewSet;
 import edu.hzu.englishstudyweb.mapper.ReviewSetMapper;
+import edu.hzu.englishstudyweb.model.StudySet;
 import edu.hzu.englishstudyweb.model.User;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.service.ReviewSetService;
@@ -111,7 +112,7 @@ public class ReviewSetServiceImpl extends ServiceImpl<ReviewSetMapper, ReviewSet
             return Result.failure(ResultCode.FAILURE_NULL_POINTER);
         }
 
-        List<Word> queryWords;
+        List<ReviewSet> queryWords;
         try {
             queryWords = this.baseMapper.getUserCurrentReviewWord(user.getId(), LocalDate.now());
         } catch (Exception e) {
@@ -130,13 +131,13 @@ public class ReviewSetServiceImpl extends ServiceImpl<ReviewSetMapper, ReviewSet
      * @date 2021/12/1 8:09
      */
     @Override
-    public Result updateReviewWordStatus(List<ReviewSet> reviewSets) {
+    public Result updateReviewWordStatus(ReviewSet reviewSet) {
 
-        if (reviewSets == null) {
+        if (reviewSet == null) {
             return Result.failure(ResultCode.FAILURE_NULL_POINTER);
         }
 
-        if (updateBatchById(reviewSets)) {
+        if (updateById(reviewSet)) {
             return Result.success();
         }
         return Result.failure(ResultCode.FAILURE);

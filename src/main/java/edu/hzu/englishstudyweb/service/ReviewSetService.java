@@ -54,5 +54,5 @@ public interface ReviewSetService extends IService<ReviewSet> {
      * @param reviewSets 更新的复习单词集
      * @return edu.hzu.englishstudyweb.util.Result
      */
-    Result updateReviewWordStatus(List<ReviewSet> reviewSets);
+    Result updateReviewWordStatus(ReviewSet reviewSet);
 }

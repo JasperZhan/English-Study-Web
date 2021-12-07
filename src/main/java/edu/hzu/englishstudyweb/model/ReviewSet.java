@@ -59,5 +59,9 @@ public class ReviewSet implements Serializable {
     @TableField("date_interval")
     private Integer dateInterval;
 
+    @ApiModelProperty("当前复习状态")
+    @TableField("current_status")
+    private Integer currentStatus;
+
 
 }
