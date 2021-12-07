@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>不背单词</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid mx-5">
+        <a class="navbar-brand" href="#">不背单词</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">学习单词</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">复习单词</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">收藏夹</a>
+                </li>
+            </ul>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn-sm btn-primary dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    个人中心
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a class="dropdown-item" href="#">修改密码</a></li>
+                    <li><a class="dropdown-item" href="#">退出登录</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div class="row" style="margin-top: 8%">
+    <div class="col"></div>
+    <div class="col-sm-12 col-md-6 col-lg-5">
+        <div class="card text-center" style="height: 350px">
+            <div class="card-header">
+                <div class="progress w-75 m-auto">
+                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <h5 id="word_english" style="margin-top: 5%" th:text="${word_english}" >1</h5>
+                <br>
+                <h6 id="word_chinese" th:text="${word_chinese}">2</h6>
+            </div>
+            <div class="card-footer">
+                <button id="btn_know" class="btn btn-outline-success w-75 m-2">认识</button>
+                <button id="btn_vague" class="btn btn-outline-warning w-75 m-2">模糊</button>
+                <button id="btn_forget" class="btn btn-outline-danger w-75 m-2">忘记</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card text-center" style="height: 350px">
+            <div class="m-auto h4">
+                <span class="h5" id="word_total" th:text="'剩余数量：'+${word_total}" >1</span>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary w-75 m-2">收藏</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/review.js" th:src="@{/js/review.js}"></script>
+</body>
+</html>
