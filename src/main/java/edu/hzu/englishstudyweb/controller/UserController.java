@@ -58,7 +58,7 @@ public class UserController {
         if (result.isSuccess()) {
             user = (User) result.getData();
             StpUtil.login(user.getId());
-            return "location.href='/study/word'";
+            return "location.href='/study'";
         } else {
             return "alert('" + result.getMsg() + "')";
         }
