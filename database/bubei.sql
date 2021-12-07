@@ -11,7 +11,7 @@
  Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 07/12/2021 00:39:39
+ Date: 07/12/2021 12:48:17
 */
 
 SET NAMES utf8mb4;
@@ -52,6 +52,7 @@ CREATE TABLE `sys_review_set`  (
   `forget_count` int NOT NULL DEFAULT 0 COMMENT '单词复习中 忘记的次数',
   `study_date` date NOT NULL COMMENT '学习该单词的日期（添加到复习单词表的日期）',
   `date_interval` int NOT NULL DEFAULT 1 COMMENT '下一次学习日期间隔',
+  `current_status` int NOT NULL DEFAULT 0 COMMENT '当前复习状态',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 221 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
