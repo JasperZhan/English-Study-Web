@@ -30,7 +30,6 @@ import java.util.*;
  * @since 2021-11-26
  */
 @Controller
-@RequestMapping("/study")
 public class StudySetController {
 
 
@@ -54,10 +53,10 @@ public class StudySetController {
     public Queue<StudySet> vagueQueue = new LinkedList<>();
     public Queue<StudySet> forgetQueue = new LinkedList<>();
 
-    @RequestMapping("/word")
+    @RequestMapping("/study")
     public String study(Model model) {  // 点击开始学习后先从学习集里面获取 单词 加入到初始队列里面
         if (!StpUtil.isLogin()) {
-            return "login";
+            return "redirect:login";
         }
 
         // 将所有单词存入redis
@@ -92,7 +91,7 @@ public class StudySetController {
     }
 
 
-    @PostMapping("know")
+    @PostMapping("/study/know")
     @ResponseBody
     @SaCheckLogin
     public WordResult know() {
@@ -125,7 +124,7 @@ public class StudySetController {
         return returnDate();
     }
 
-    @PostMapping("vague")
+    @PostMapping("study/vague")
     @ResponseBody
     @SaCheckLogin
     public WordResult vague() {
@@ -154,7 +153,7 @@ public class StudySetController {
         return returnDate();
     }
 
-    @PostMapping("forget")
+    @PostMapping("study/forget")
     @ResponseBody
     @SaCheckLogin
     public WordResult forget() {
