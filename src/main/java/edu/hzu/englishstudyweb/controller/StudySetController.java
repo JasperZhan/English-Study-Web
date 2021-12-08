@@ -3,10 +3,12 @@ package edu.hzu.englishstudyweb.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import edu.hzu.englishstudyweb.model.Collection;
 import edu.hzu.englishstudyweb.model.StudySet;
 import edu.hzu.englishstudyweb.model.User;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.model.WordResult;
+import edu.hzu.englishstudyweb.service.CollectionService;
 import edu.hzu.englishstudyweb.service.ReviewSetService;
 import edu.hzu.englishstudyweb.service.StudySetService;
 import edu.hzu.englishstudyweb.service.WordService;
@@ -41,6 +43,9 @@ public class StudySetController {
 
     @Resource
     WordService wordService;
+
+    @Resource
+    CollectionService collectionService;
 
     private static StudySet currentStudy = null;
 
@@ -87,6 +92,8 @@ public class StudySetController {
         model.addAttribute("word_english", wordResult.getWord_english());  // 页面展示的第一个单词
         model.addAttribute("word_chinese", wordResult.getWord_chinese());  // 页面展示的第一个单词
         model.addAttribute("word_total", wordResult.getWord_total()); // 显示剩余需要背诵的单词数量
+        model.addAttribute("word_id", wordResult.getWord_id());
+        model.addAttribute("word_collect", wordResult.getWord_collect());
         return "study";
     }
 
@@ -216,7 +223,6 @@ public class StudySetController {
         assert word != null;
         System.out.println("下一个要学习的单词:" + word.getId() + "study_set id:" + currentStudy.getId());
 
-
         WordResult wordResult = new WordResult();
         wordResult.setWord_id(word.getId());
         wordResult.setWord_status(currentStudy.getWord_status());
@@ -225,6 +231,15 @@ public class StudySetController {
         wordResult.setWord_english(word.getEnglish());
         wordResult.setWord_level(word.getLevel());
 
+        Collection collection = new Collection();
+        collection.setUserId(StpUtil.getLoginIdAsInt());
+        collection.setWordId(word.getId());
+        Result result = collectionService.isWordExist(collection);
+        if (result.isSuccess()) {
+            wordResult.setWord_collect("已收藏");
+        } else {
+            wordResult.setWord_collect("收藏");
+        }
         return wordResult;
     }
 }
