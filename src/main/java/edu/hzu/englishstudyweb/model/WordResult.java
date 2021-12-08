@@ -14,4 +14,5 @@ public class WordResult {
     String word_chinese;
     String word_english;
     String word_level;
+    String word_collect;
 }
