@@ -12,7 +12,8 @@ public class RedirectConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("study");
         registry.addViewController("/study").setViewName("study");
-        registry.addViewController("/register").setViewName("register");
+        registry.addViewController("/review").setViewName("review");
+        registry.addViewController("/collection").setViewName("collection");
         registry.addViewController("/error").setViewName("error");
     }
 }
