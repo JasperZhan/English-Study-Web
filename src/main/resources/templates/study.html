@@ -18,13 +18,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">学习单词</a>
+                    <a class="nav-link active" aria-current="page">学习单词</a>
                 </li>
                 <li class="nav-item" >
                     <a class="nav-link" href="/review">复习单词</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">收藏夹</a>
+                    <a class="nav-link" href="/collection">收藏夹</a>
                 </li>
             </ul>
             <div class="btn-group" role="group">
@@ -34,7 +34,7 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     <li><a class="dropdown-item" href="#">修改密码</a></li>
-                    <li><a class="dropdown-item" href="#">退出登录</a></li>
+                    <li><a class="dropdown-item" href="/user/logout">退出登录</a></li>
                 </ul>
             </div>
 
@@ -67,15 +67,25 @@
     <div class="col-md-2">
         <div class="card text-center" style="height: 350px">
             <div class="m-auto h4">
+                <span class="h5">当前学习单词：No.</span>
+                <span class="h5" id="word_id" th:text="${word_id}">1</span>
+                <br>
+                <br>
                 <span class="h5">单词数量：20</span>
                 <br>
                 <br>
                 <span class="h5" id="word_total" th:text="'剩余数量：'+${word_total}" >1</span>
             </div>
             <div class="card-footer">
-                <button class="btn btn-primary w-75 m-2">收藏</button>
+                <a id="collection" class="btn btn-primary w-75 m-2"
+                   th:text="${word_collect}"
+                   th:classappend="${word_collect == '已收藏'} ? 'disabled' : ''">收藏</a>
             </div>
 
+
+<!--            th:href="'/collection/add/'+${word_id}"-->
+<!--            th:text="${word_collect}"-->
+<!--            th:classappend="${word_collect == '已收藏'} ? 'disabled' : '' "-->
         </div>
     </div>
     <div class="col"></div>
