@@ -84,10 +84,11 @@ public class UserController {
      * @date 2021/11/27 10:55
      * @return java.lang.String
      */
-    @ResponseBody
-    @RequestMapping("logout")
+
+
+    @RequestMapping("/logout")
     public String logout() {
         StpUtil.logout();
-        return "注销账号";
+        return "redirect:login";
     }
 }
