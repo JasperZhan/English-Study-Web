@@ -12,6 +12,8 @@ import edu.hzu.englishstudyweb.util.Result;
 import edu.hzu.englishstudyweb.util.ResultCode;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -114,7 +116,19 @@ public class CollectionServiceImpl extends ServiceImpl<CollectionMapper, Collect
             return Result.failure(ResultCode.FAILURE);
         }
         Page<Word> page = new Page<>(current, number);
-        page = page.setRecords(this.baseMapper.showUserCollectionWord(page, user.getId()));
-        return Result.success(ResultCode.SUCCESS, page);
+        List<Word> wordList = this.baseMapper.showUserCollectionWord(page, user.getId());
+        return Result.success(ResultCode.SUCCESS, wordList);
+    }
+
+    @Override
+    public Result getCollectionNum(Integer id) {
+        if (id == null) {
+            return Result.failure(ResultCode.FAILURE_NULL_POINTER);
+        }
+
+        QueryWrapper<Collection> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", id);
+        long count = count(queryWrapper);
+        return Result.success(count);
     }
 }

@@ -53,4 +53,6 @@ public interface CollectionService extends IService<Collection> {
      * @return edu.hzu.englishstudyweb.util.Result>
      */
     Result showCollectionPage(int current, int number, User user);
+
+    Result getCollectionNum(Integer id);
 }

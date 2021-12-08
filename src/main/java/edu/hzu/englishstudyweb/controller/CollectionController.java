@@ -7,10 +7,9 @@ import edu.hzu.englishstudyweb.model.User;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.service.CollectionService;
 import edu.hzu.englishstudyweb.util.Result;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,38 +22,58 @@ import java.util.List;
  * @author Jasper Zhan
  * @since 2021-11-26
  */
-@RestController
-@RequestMapping("/collection/")
+@Controller
 public class CollectionController {
 
     @Resource
     private CollectionService collectionService;
 
-    public String collection() {
-        if (StpUtil.isLogin()) {
-            return "collection";
-        } else {
-            return "login";
+    @RequestMapping("/collection")
+    public String collection(Model model, @RequestParam(value = "pageIndex", defaultValue = "0") int pageIndex,
+                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        if (!StpUtil.isLogin()) {
+            return "redirect:login";
         }
+        User user = new User();
+        user.setId(StpUtil.getLoginIdAsInt());
+        Result result = collectionService.showCollectionPage(pageIndex, pageSize, user);
+        if (!result.isSuccess()) {
+            return result.getMsg();
+        }
+        List<Word> wordList = (List<Word>) result.getData();
+        result = collectionService.getCollectionNum(StpUtil.getLoginIdAsInt());
+        if (!result.isSuccess()) {
+            return result.getMsg();
+        }
+        long count = (long)result.getData();
+        System.out.println(count);
+        model.addAttribute("wordList", wordList);
+        model.addAttribute("pageNum", count % 10 == 0 ? count/10 : count /10 + 1);
+        model.addAttribute("currentPage", pageIndex);
+        return "collection";
     }
 
-    @RequestMapping("add")
+    @ResponseBody
+    @RequestMapping("/collection/add/")
     public String add(String wordId) {
-        if (!StpUtil.isLogin()) {
-            return "当前未登录";
-        }
+//        if (!StpUtil.isLogin()) {
+//            return "当前未登录";
+//        }
+        System.out.println(wordId);
         Collection collection = new Collection();
         collection.setUserId(StpUtil.getLoginIdAsInt());
         collection.setWordId(Integer.valueOf(wordId));
         Result result = collectionService.addWord(collection);
         if (result.isSuccess()) {
-            return "添加收藏成功";
+            return "已收藏";
         } else {
-            return "添加收藏失败";
+            return "收藏";
         }
+
     }
 
-    @RequestMapping("delete")
+    @RequestMapping("/collection/delete")
+    @ResponseBody
     public String delete(String collection_id) {
         if (!StpUtil.isLogin()) {
             return "当前未登录";
@@ -69,20 +88,4 @@ public class CollectionController {
         }
     }
 
-    @RequestMapping("list")
-    public String list(int pageIndex, Model model) {
-        if (!StpUtil.isLogin()) {
-            return "当前未登录";
-        }
-        User user = new User();
-        user.setId(StpUtil.getLoginIdAsInt());
-        //这里保留一个number参数，后期可以添加单分页展现多少单词条数
-        Result result = collectionService.showCollectionPage(pageIndex, 20, user);
-        if (!result.isSuccess()) {
-            return "查询失败"+result.getMsg();
-        }
-        List<Word> wordList = (List<Word>) result.getData();
-        model.addAttribute("wordList", wordList);
-        return "collectionList";
-    }
 }
