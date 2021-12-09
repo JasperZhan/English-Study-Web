@@ -70,12 +70,12 @@
                         <td th:text="${word.getSent()}">/ˈɪŋɡlɪʃ/</td>
                         <td>
                             <div th:switch="${word.level}">
-                                <b th:case="4">四级</b>
-                                <b th:case="6">六级</b>
+                                <span th:case="4">四级</span>
+                                <span th:case="6">六级</span>
                             </div>
                         </td>
                         <td>
-<!--                            <a class="btn btn-sm btn-danger" th:href="@{/deleteWordCollection/}+${word.getWordId()}">取消收藏</a>-->
+                            <a class="btn btn-sm btn-outline-danger" th:href="'/collectionDelete?collection_id='+${word.getId()}+'&page_index='+${currentPage - 1}">取消收藏</a>
                         </td>
                     </tr>
 
@@ -86,25 +86,20 @@
             <div class="card-footer" >
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
-                        <li >
-                            <a class="page-link">Previous</a>
+                        <li class="page-item" th:classappend="${currentPage - 1 == 0}  ? 'disabled' : '' ">
+                            <a class="page-link" th:href="'/collection?pageIndex=' + ${currentPage - 1}">Previous</a>
                         </li>
                         <!-- 中间页 -->
-                        <li th:each="pageNum:${#numbers.sequence(0, pageNum)}">
-                            <a th:href="'/collection?pageIndex=' + ${pageNum}" th:text="${pageNum + 1}" th:if="${pageNum ne currentPage}"></a>
-                            <a th:href="'/collection?pageIndex=' + ${pageNum}" th:text="${pageNum + 1}" th:if="${pageNum eq currentPage}" th:style="'font-weight:bold;background: #6faed9;'"></a>
+                        <li class="page-item" th:each="page:${#numbers.sequence(0, pageNum - 1)}" th:classappend="${page + 1 eq currentPage} ? 'active' : ''">
+                            <a class="page-link" th:href="'/collection?pageIndex=' + ${page + 1}" th:text="${page + 1}" th:if="${page + 1 ne currentPage}"></a>
+                            <a class="page-link" th:href="'/collection?pageIndex=' + ${page + 1}" th:text="${page + 1}" th:if="${page + 1 eq currentPage}" ></a>
                         </li>
-
-<!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-                        <li>
-                            <a class="page-link" href="#">Next</a>
+                        <li class="page-item" th:classappend="${currentPage == pageNum} ? 'disabled' : ''">
+                            <a class="page-link" th:href="'/collection?pageIndex=' + ${currentPage + 1}">Next</a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <!--分页结束-->
         </div>
     </div>
     <div class="col"></div>
