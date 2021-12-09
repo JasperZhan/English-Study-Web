@@ -31,4 +31,6 @@ public interface StudySetService extends IService<StudySet> {
 
      Result getPageOfStudyByUser(Integer user_id, int current, int size);
 
+     Result deleteAllWordByUser(Integer userId);
+
 }
