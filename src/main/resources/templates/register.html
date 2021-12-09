@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>不背单词~注册</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body class="container-fluid">
+<div class="row" style="margin-top: 10%">
+    <div class="col"></div>
+    <div class="col-3">
+        <div class="card">
+            <div class="mx-auto mt-3 h5">注册</div>
+            <div class="form m-3">
+                <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="tell" placeholder="请输入手机号码">
+                    <label for="tell">手机号</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                    <label for="password">密码</label>
+                </div>
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password_confirm" placeholder="请确认密码">
+                    <label for="password_confirm">确认密码</label>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                    <div class="form-floating">
+                        <input type="" class="form-control" id="verification_code" placeholder="请输入验证码">
+                        <label for="verification_code">验证码</label>
+                    </div>
+                    <div class="my-auto">
+                        <button id="get_verification_code" class="btn btn-outline-primary my-auto">获取验证码</button>
+                    </div>
+
+                </div>
+                <button id="register" type="submit" class="btn btn-primary w-100 mt-3">注册</button>
+            </div>
+            <a href="/user/login" class="mx-auto mb-2">已有账号，前往登录</a>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/register.js" th:src="@{/js/register.js}"></script>
+</body>
+</html>

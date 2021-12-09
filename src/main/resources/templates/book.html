@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>不背单词~选择词书</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid mx-5">
+        <a class="navbar-brand" href="#">不背单词</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/study">学习单词</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/review">复习单词</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/collection">收藏夹</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">选择词书</a>
+                </li>
+            </ul>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn-sm btn-primary dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    个人中心
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a class="dropdown-item" href="/user/change_password/check">修改密码</a></li>
+                    <li><a class="dropdown-item" href="/user/logout">退出登录</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</nav>
+<div class="row" style="margin-top: 2%">
+    <div class="col"></div>
+    <div class="col-7">
+        <div class="card mb-3">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-7">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../static/img/CET-4.jpg" th:src="@{/img/CET-4.jpg}" class="d-block w-100 .img-fluid" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>CET-4 Vocabulary</h5>
+                                    <p>Vocabulary of CET-4 syllabus is included.</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../static/img/CET-6.jpg" th:src="@{/img/CET-6.jpg}" class="d-block w-100 .img-fluid" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>CET-6 Vocabulary</h5>
+                                    <p>Vocabulary of CET-6 syllabus is included.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Please select a word book</h5>
+                        <p class="card-text">The corresponding words in the word book will be added to your learning set.</p>
+                        <p class="card-text"><small class="text-muted">请选择一本词书</small></p>
+                        <p class="card-text"><small class="text-muted">将会添加词书相应的单词在您的学习集中</small></p>
+                        <a id="cet-4" class="btn btn-outline-success m-3 w-75" >四级词书</a>
+                        <a id="cet-6" class="btn btn-outline-success m-3 w-75" >六级词书</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col"></div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                词书修改成功，请前往学习页面学习
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <a type="button" class="btn btn-primary" href="/study">前往学习</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../static/js/book.js" th:src="@{/js/book.js}"></script>
+</body>
+</html>

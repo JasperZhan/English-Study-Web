@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import edu.hzu.englishstudyweb.model.ReviewSet;
 import edu.hzu.englishstudyweb.mapper.ReviewSetMapper;
-import edu.hzu.englishstudyweb.model.StudySet;
 import edu.hzu.englishstudyweb.model.User;
 import edu.hzu.englishstudyweb.model.Word;
 import edu.hzu.englishstudyweb.service.ReviewSetService;
@@ -125,7 +124,7 @@ public class ReviewSetServiceImpl extends ServiceImpl<ReviewSetMapper, ReviewSet
 
     /**
      * 更新用户当前复习单词的状态
-     * @param reviewSets 更新的复习单词集
+     * @param reviewSet 更新的复习单词集
      * @return edu.hzu.englishstudyweb.util.Result
      * @author Jasper Zhan
      * @date 2021/12/1 8:09
