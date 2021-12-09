@@ -92,6 +92,11 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Result failure(String message) {
+        Result result = new Result();
+        result.setMsg(message);
+        return result;
+    }
 
 }
 
