@@ -1,10 +1,10 @@
 package edu.hzu.englishstudyweb.serviceImpl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import edu.hzu.englishstudyweb.model.ReviewSet;
 import edu.hzu.englishstudyweb.model.StudySet;
 import edu.hzu.englishstudyweb.mapper.StudySetMapper;
 import edu.hzu.englishstudyweb.model.User;
@@ -143,5 +143,12 @@ public class StudySetServiceImpl extends ServiceImpl<StudySetMapper, StudySet> i
         }
 
         return Result.success(ResultCode.SUCCESS, queryWordPage.getRecords());
+    }
+
+    @Override
+    public Result deleteAllWordByUser(Integer userId) {
+
+        this.studySetMapper.deleteAllWordByUser(userId);
+        return Result.success();
     }
 }

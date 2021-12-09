@@ -80,6 +80,16 @@ public class StudySetController {
 
         List<StudySet> studySets = (List<StudySet>) result.getData();
 
+        if (studySets.size() == 0) {
+            model.addAttribute("word_total", -1);
+            return "study";
+        }
+
+        totalList.clear();
+        knowQueue.clear();
+        vagueQueue.clear();
+        forgetQueue.clear();
+
         // 学习单词初始化，都是忘记状态
         for (StudySet studySet : studySets) {
             System.out.println(studySet);
@@ -106,10 +116,10 @@ public class StudySetController {
         StudySet studySet;
 
         // 如果用户第一次学习该单词就已经认识，直接加入复习
-        if (currentStudy.getWord_count().equals(0)) {
-            forgetQueue.poll();
-            addReview();
-        }
+//        if (currentStudy.getWord_count().equals(0)) {
+//            forgetQueue.poll();
+//            addReview();
+//        }
 
         if (currentStudy.getWord_status().equals(3)) {  // 单词点击认识前的status是认识 : 出队
             knowQueue.poll(); // 认识队列队头出队
@@ -205,6 +215,9 @@ public class StudySetController {
 
         StudySet studySet = null;
 
+        System.out.println(forgetQueue.size());
+        System.out.println(vagueQueue.size());
+        System.out.println(knowQueue.size());
         if (!forgetQueue.isEmpty()) {
             studySet = forgetQueue.peek();
         } else if (!vagueQueue.isEmpty()) {

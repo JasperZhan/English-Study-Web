@@ -34,4 +34,6 @@ public interface StudySetMapper extends BaseMapper<StudySet> {
     IPage<Word> showUserStudyWordPage(Page<?> page, @Param("userId") Integer userId);
 
     IPage<StudySet> showUserStudySetPage(Page<?> page, @Param("userId") Integer userId);
+
+    void deleteAllWordByUser(Integer user_id);
 }
