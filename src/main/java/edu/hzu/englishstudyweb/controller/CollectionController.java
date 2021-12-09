@@ -9,7 +9,9 @@ import edu.hzu.englishstudyweb.service.CollectionService;
 import edu.hzu.englishstudyweb.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,8 +30,8 @@ public class CollectionController {
     @Resource
     private CollectionService collectionService;
 
-    @RequestMapping("/collection")
-    public String collection(Model model, @RequestParam(value = "pageIndex", defaultValue = "0") int pageIndex,
+    @RequestMapping("collection")
+    public String collection(Model model, @RequestParam(value = "pageIndex", defaultValue = "1") int pageIndex,
                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         if (!StpUtil.isLogin()) {
             return "redirect:login";
@@ -47,8 +49,10 @@ public class CollectionController {
         }
         long count = (long)result.getData();
         System.out.println(count);
+        long pageNum = count % 10 == 0 ? count/10 : count /10 + 1;
+        System.out.println(pageNum);
         model.addAttribute("wordList", wordList);
-        model.addAttribute("pageNum", count % 10 == 0 ? count/10 : count /10 + 1);
+        model.addAttribute("pageNum", pageNum);
         model.addAttribute("currentPage", pageIndex);
         return "collection";
     }
@@ -72,18 +76,23 @@ public class CollectionController {
 
     }
 
-    @RequestMapping("/collection/delete")
-    @ResponseBody
-    public String delete(String collection_id) {
+
+
+    @RequestMapping("/collectionDelete")
+    public String delete(String collection_id, int page_index) {
         if (!StpUtil.isLogin()) {
             return "当前未登录";
         }
         Collection collection = new Collection();
-        collection.setId(Integer.valueOf(collection_id));
+        collection.setWordId(Integer.valueOf(collection_id));
+        collection.setUserId(StpUtil.getLoginIdAsInt());
+        System.out.println(collection_id);
         Result result = collectionService.deleteWord(collection);
         if (result.isSuccess()) {
-            return "删除收藏成功";
+//            return "location.href='/collection'";
+            return "redirect:collection";
         } else {
+            System.out.println(result.getMsg());
             return "删除收藏失败";
         }
     }
