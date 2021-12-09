@@ -1,6 +1,7 @@
 package edu.hzu.englishstudyweb.serviceImpl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import edu.hzu.englishstudyweb.model.User;
@@ -100,7 +101,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("tell", user.getTell()).last("LIMIT 1");
         User queryUser = getOne(queryWrapper);
-        if (queryUser != null) {
+        if (queryUser == null) {
             return Result.failure(ResultCode.FAILURE);
         }
         save(user);
@@ -128,5 +129,46 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userMap.put(user.getTell(), user);
         }
         return userMap;
+    }
+
+    @Override
+    public Result setBook(Integer userId, String book) {
+
+        User user = getById(userId);
+        if (user == null) {
+            return Result.failure(ResultCode.FAILURE_OF_QUERY_NULL);
+        }
+        user.setBook(book);
+        updateById(user);
+        return Result.success();
+    }
+
+    @Override
+    public Result updateUserOfPw(User user) {
+        if (user.getTell() == null) {
+            return Result.failure("手机号为空");
+        }
+        if (user.getPassword() == null) {
+            return Result.failure("密码为空");
+        }
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("tell", user.getTell()).last("LIMIT 1");
+        User queryUser = getOne(queryWrapper);
+        if (queryUser == null) {
+            return Result.failure("查询结果为空");
+        }
+        queryUser.setPassword(user.getPassword());
+        updateById(queryUser);
+        try {
+            userCollection = list();
+            userMap = convertToMap(userCollection);
+            redisTemplate.opsForHash().putAll(USER_LIST, userMap);
+            // 缓存过期时间为一小时
+            redisTemplate.expire(USER_LIST, 3600000, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            System.out.println("redis更新失败"+e);
+            return Result.failure("redis更新失败"+e);
+        }
+        return Result.success(ResultCode.SUCCESS);
     }
 }

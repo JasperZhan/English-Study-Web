@@ -29,4 +29,8 @@ public interface UserService extends IService<User> {
      */
     public Result register(User user);
 
+    public Result setBook(Integer userId, String book);
+
+    public Result updateUserOfPw(User user);
+
 }
