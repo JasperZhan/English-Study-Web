@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>不背单词</title>
+    <title>不背单词~收藏夹</title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="../static/css/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link active">收藏夹</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/book">选择词书</a>
+                </li>
             </ul>
             <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn-sm btn-primary dropdown-toggle"
@@ -33,8 +36,8 @@
                     个人中心
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <li><a class="dropdown-item" href="#">修改密码</a></li>
-                    <li><a class="dropdown-item" href="#">退出登录</a></li>
+                    <li><a class="dropdown-item" href="/user//change_password">修改密码</a></li>
+                    <li><a class="dropdown-item" href="/user/logout">退出登录</a></li>
                 </ul>
             </div>
 
