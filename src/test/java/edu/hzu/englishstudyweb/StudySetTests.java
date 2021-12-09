@@ -132,5 +132,8 @@ public class StudySetTests {
         }
     }
 
-
+    @Test
+    public void deleteAllWordByUserTest() {
+        studySetService.deleteAllWordByUser(6);
+    }
 }

@@ -86,7 +86,7 @@ function modifyData(data) {
     $("#word_total").empty();
     $("#word_total").append("剩余数量："+jsonObject.word_total);
     $("#word_id").empty();
-    $("#word_id").append(jsonObject.word_id);
+    $("#word_id").append("当前学习单词：No."+jsonObject.word_id);
     if (jsonObject.word_collect == "已收藏") {
         $("#collection").addClass("disabled");
     } else {
@@ -94,6 +94,17 @@ function modifyData(data) {
     }
     $("#collection").empty();
     $("#collection").append(jsonObject.word_collect);
+
+    console.log(jsonObject.word_status)
+    switch (jsonObject.word_status) {
+        // case 1: $("#progress").attr({"style": "width: 33%;"})
+        // case 2: $("#progress").attr({"style": "width: 66%;"})
+        // case 3: $("#progress").attr({"style": "width: 100%;"})
+        case 1: $("#progress").width("33%"); break;
+        case 2: $("#progress").width("66%"); break;
+        case 3: $("#progress").width("100%"); break;
+    }
+
 
 }
 // if (jsonObject.word_collect == "已收藏") {

@@ -75,4 +75,9 @@
         WHERE user_id = #{userId}
     </select>
 
+    <delete id="deleteAllWordByUser" parameterType="integer">
+        delete
+        FROM sys_study_set
+        WHERE user_id = #{user_id}
+    </delete>
 </mapper>
